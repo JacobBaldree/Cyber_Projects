@@ -1,0 +1,42 @@
+--- 
+- name: docker_python_config
+  hosts: webservers
+  become: true
+  tasks:
+
+  - name: Uninstall Apache
+    apt:
+      name: apache2
+      state: absent
+
+
+  - name: install docker.io
+    apt:
+      force_apt_get: yes
+      update_cache: yes
+      name: docker.io
+      state: present
+
+  - name: install python3-pip 
+    apt:
+      force_apt_get: yes
+      name: python3-pip
+      state: present
+ 
+  - name: Install Python Docker Module
+    pip:
+      name: docker
+      state: present 
+
+  - name: install DVWA web container
+    docker_container:
+      name: dvwa
+      image: cyberxsecurity/dvwa
+      state: started
+      restart_policy: always
+      published_ports: 80:80
+
+  - name: enable docker service
+    systemd:
+      name: docker
+      enabled: yes
