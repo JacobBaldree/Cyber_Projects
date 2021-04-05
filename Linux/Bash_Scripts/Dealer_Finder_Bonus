@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# read -p echos message to command line and prompts user for input
+read -p "Please enter filename: " filename
+read -p "Please enter game (g1 = blackjack g2 = roulette g3 = texas hold em): " game
+
+	if [[ $game == "g1" ]];
+		then  awk '{print $1$2,$3,$4}' $filename
+
+	elif [[ $game == "g2" ]];
+		then awk '{print $1$2" "$5" "$6}' $filename
+
+	elif [[ $game == "g3" ]];
+		then awk '{print $1$2" "$7" "$8}' $filename
+
+	elif [[ $game != "g1\|g2\|g3" ]];
+		then echo "Not Found!"
+fi
